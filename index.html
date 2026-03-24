@@ -509,6 +509,61 @@
                 grid-template-columns: 1fr;
             }
         }
+
+        /* --- Image Modal --- */
+        .image-modal {
+            visibility: hidden;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease, visibility 0.3s;
+        }
+
+        .image-modal.active {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .image-modal-content {
+            max-width: 90%;
+            max-height: 90%;
+            border: 2px solid var(--accent-color);
+            box-shadow: 0 0 20px var(--accent-color);
+            object-fit: contain;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: var(--accent-color);
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .close-modal:hover {
+            color: #fff;
+            text-shadow: 0 0 10px #fff;
+        }
+
+        .project-img img {
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .project-img img:hover {
+            transform: scale(1.05);
+        }
     </style>
 </head>
 
@@ -705,7 +760,7 @@
                     <h3>DOWNLOAD MY RESUME HERE</h3>
                     <p style="color: var(--dim-text); margin: 1rem 0 2rem;">Complete academic and professional history
                         available for download.</p>
-                    <a href="resume.pdf" class="btn" download>VIEW / DOWNLOAD RESUME</a>
+                    <a href="Others/BHARATH.pdf" class="btn" download>VIEW / DOWNLOAD RESUME</a>
                 </div>
             </div>
         </div>
@@ -767,7 +822,7 @@
                 <!-- Project 3 -->
                 <div class="project-card">
                     <div class="project-img" style="overflow: hidden;">
-                        <img src="D:\HTML\Portfolio\yt_image.png" alt="YouTube Clone"
+                        <img src="Others/yt_image.png" alt="YouTube Clone"
                             style="width: 100%; height: 100%; object-fit: cover;">
                     </div>
                     <div class="project-info">
@@ -805,7 +860,10 @@
 
                 <!-- Mini Project 1 -->
                 <div class="project-card">
-                    <div class="project-img">[MINI_01]</div>
+                    <div class="project-img" style="overflow: hidden;">
+                        <img src="Others/Rock-paper-scisssors.png" alt="Rock Paper Scissors Game"
+                            style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
                     <div class="project-info">
                         <h3>ROCK PAPER SCISSORS GAME</h3>
                         <ul style="list-style:disc; padding-left: 17px;">
@@ -813,7 +871,7 @@
                                 JavaScript.</li>
                         </ul>
 
-                        <a href="#" class="project-link"
+                        <a href="Others/10.rock-paper-scissors-with-DOM-and-css.html" class="project-link"
                             style="display: inline-block; margin-top: 1rem; color: var(--accent-color); border-bottom: 1px solid var(--accent-color); font-size: 0.9rem;">>>
                             CLICK HERE</a>
                     </div>
@@ -881,15 +939,15 @@
                     <span style="color: var(--accent-color); font-size: 0.9rem;">GITHUB_REPO</span>
                 </a>
                 <!-- LinkedIn -->
-                <a href="https://linkedin.com/" target="_blank"
-                    style="display: flex; flex-direction: column; align-items: center;">
+                <a href="https://www.linkedin.com/in/bharath-s-5347ba3a8/?lipi=urn%3Ali%3Apage%3Ad_flagship3_feed%3BYYT%2Fw2yLQYiFbp%2Bo0DBCqQ%3D%3D"
+                    target="_blank" style="display: flex; flex-direction: column; align-items: center;">
                     <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linkedin/linkedin-original.svg"
                         alt="LinkedIn"
                         style="width: 50px; height: 50px; filter: drop-shadow(0 0 5px var(--accent-color)); margin-bottom: 0.5rem;">
                     <span style="color: var(--accent-color); font-size: 0.9rem;">LINKED_IN</span>
                 </a>
                 <!-- Twitter / X -->
-                <a href="https://twitter.com/" target="_blank"
+                <a href="https://x.com/knightoftvm" target="_blank"
                     style="display: flex; flex-direction: column; align-items: center;">
                     <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/twitter/twitter-original.svg"
                         alt="Twitter"
@@ -897,7 +955,8 @@
                     <span style="color: var(--accent-color); font-size: 0.9rem;">SIGNAL_X</span>
                 </a>
                 <!-- Email -->
-                <a href="mailto:email@example.com" style="display: flex; flex-direction: column; align-items: center;">
+                <a href="https://mail.google.com/mail/?view=cm&fs=1&to=bharathsankar444@gmail.com" target="_blank"
+                    style="display: flex; flex-direction: column; align-items: center;">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/7/7e/Gmail_icon_%282020%29.svg" alt="Email"
                         style="width: 50px; height: 50px; margin-bottom: 0.5rem;">
                     <span style="color: var(--accent-color); font-size: 0.9rem;">DIRECT_LINE</span>
@@ -931,6 +990,12 @@
     <footer>
         <p>SYSTEM_VERSION_2.0 | &copy; 2025</p>
     </footer>
+
+    <!-- Image Modal -->
+    <div id="image-modal" class="image-modal">
+        <span class="close-modal">&times;</span>
+        <img class="image-modal-content" id="modal-img">
+    </div>
 
     <script>
         // --- Intro Animation ---
@@ -1136,6 +1201,32 @@
 
         menuToggle.addEventListener('click', () => {
             navLinks.classList.toggle('active');
+        });
+
+        // --- Image Modal Logic ---
+        const imageModal = document.getElementById("image-modal");
+        const modalImg = document.getElementById("modal-img");
+        const closeModal = document.querySelector(".close-modal");
+
+        // Add click listeners to all project images
+        document.querySelectorAll('.project-img img').forEach(img => {
+            img.addEventListener('click', function (e) {
+                e.stopPropagation();
+                modalImg.src = this.src;
+                imageModal.classList.add('active');
+            });
+        });
+
+        // Close modal when clicking X
+        closeModal.addEventListener('click', () => {
+            imageModal.classList.remove('active');
+        });
+
+        // Close modal when clicking outside the image
+        imageModal.addEventListener('click', (e) => {
+            if (e.target === imageModal) {
+                imageModal.classList.remove('active');
+            }
         });
     </script>
 </body>
